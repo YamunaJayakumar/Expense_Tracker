@@ -42,7 +42,7 @@ function add() {
     document.getElementById("title").value = '';
     document.getElementById("amount").value = '';
     document.getElementById("date").value = '';
-
+    datadisplay();
   }
 
 }
@@ -50,29 +50,37 @@ function add() {
 
 //   //datadisplay
 function datadisplay() {
-  for (let i = 0; i < localStorage.length; i++) {
-    let key = localStorage.key(i);
-    let data = localStorage.getItem(key);
 
+    //get the table body
+    let tablebody=document.getElementById('displayoutput') ;
 
-    let expense = JSON.parse(data)
-    console.log(expense)
-    let tdata = expense.title
-    let adata = expense.amount
-    let ddata = expense.date
-    document.getElementById('displayoutput').innerHTML = `
-       <tr id="expenserow">
+    //clear previous rows
+    tablebody.innerHTML='';
+
+    //get all expenses from the local storage
+    let existing=JSON.parse(localStorage.getItem("expenses"))||[];
+
+    //loop and show each expenses as table row
+    existing.forEach((item)=>{
+        let row=`
+       <tr >
         
-                    <td id="titlename">${tdata}</td>
-                    <td id="amountdata">${adata}</td>
-                    <td id="datedata">${ddata}</td>
+                    <td id="titlename">${item.title}</td>
+                    <td id="amountdata">${item.amount}</td>
+                    <td id="datedata">${item.date}</td>
                     <td><button type="button" class="btn btn-primary" onclick="edit()">edit</button>
                         
                     </td>
                     </tr>
-       `
+       `;
+
+       //add it to the table body
+       tablebody.innerHTML+=row
+       
+    });
+    
   }
-}
+
 
 
 function edit() {
