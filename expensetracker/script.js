@@ -63,12 +63,12 @@ function datadisplay() {
     //loop and show each expenses as table row
     existing.forEach((item)=>{
         let row=`
-       <tr >
+       <tr>
         
                     <td id="titlename">${item.title}</td>
                     <td id="amountdata">${item.amount}</td>
                     <td id="datedata">${item.date}</td>
-                    <td><button type="button" class="btn btn-primary" onclick="edit()">edit</button>
+                    <td><button type="button" class="btn btn-primary" onclick="edit(${item.id})">edit</button>
                         
                     </td>
                     </tr>
@@ -82,26 +82,19 @@ function datadisplay() {
   }
 
 
+//edit function
+function edit(id) {
+  console.log(id)
+  let allexpenses=JSON.parse(localStorage.getItem('expenses'))||[]
+  let editexpense=allexpenses.find((item)=>item.id===id)
+  console.log(editexpense)
+  document.getElementById("title").value = editexpense.title;
+  document.getElementById("amount").value = editexpense.amount;
+  document.getElementById("date").value = editexpense.date;
+  //remove this entry from localstorage
+  editexpense=allexpenses.filter((item)=>)
 
-function edit() {
-  let editkey = document.getElementById("titlename").innerHTML;
-  console.log(editkey);
-
-
-  let data = localStorage.getItem(editkey);
-  console.log(data)
-  if (data) {
-    let expensedata = JSON.parse(data);
-    let titlenew = expensedata.title;
-    let amountnew = expensedata.amount
-    let datenew = expensedata.date
-
-    document.getElementById("title").value = titlenew;
-    document.getElementById("amount").value = amountnew;
-    document.getElementById("date").value = datenew;
-    localStorage.removeItem(editkey);
-    document.getElementById('displayoutput').innerHTML = ''
-  }
+  
 
 }
 
